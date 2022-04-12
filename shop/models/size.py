@@ -36,7 +36,7 @@ class Size(AbstractModel):
     def __str__(self):
         if(self.size_global == None):
             return f"{self.size} ({SIZE_TYPES[self.type][1]})" 
-        return f"{self.size_global} ({SIZE_TYPES[self.type][1]})"
+        return f"{self.size}"
 
     class Meta:
         ordering = ['-created_at']

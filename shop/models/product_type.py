@@ -1,6 +1,8 @@
 from django.db import models
 from config.common_model import AbstractModel
 from django.utils.translation import gettext_lazy as _
+from django.core.validators import MaxValueValidator, MinValueValidator
+
 
 PROD_TYPES = (
     (0, _('Чапан')),
@@ -12,10 +14,11 @@ PROD_TYPES = (
 
 class ProductType(AbstractModel):
     name = models.CharField(_('Название категории'),max_length=255, null=False, blank=True)
-    have_size = models.BooleanField(default=True)
+    year = models.PositiveIntegerField(_('Год'), default=2021, validators=[MaxValueValidator(2050), MinValueValidator(1991)])
+    have_size = models.BooleanField(_('Есть размеры'), default=True)
 
     def __str__(self):
-        return self.name
+        return f"{self.name} {self.year}"
 
     class Meta:
         ordering = ['-created_at']
