@@ -1,7 +1,7 @@
 from config.common_model import AbstractModel
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from shop.models.item import ProductAvailability
+from shop.models.product import ProductAvailability
 from django.db.models.signals import post_init, post_save
 from django.utils import timezone
 
