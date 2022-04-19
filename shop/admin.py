@@ -1,4 +1,5 @@
 from django.contrib import admin
+from shop.models.card import Card
 from shop.models.color import Color
 from shop.models.image import Image
 
@@ -41,3 +42,4 @@ admin.site.register(Product, ProductAdmin)
 admin.site.register(ProductType, ProductTypeAdmin)
 admin.site.register(Size, SizeAdmin)
 admin.site.register(Color, ColorAdmin)
+admin.site.register(Card)
