@@ -64,6 +64,7 @@ MIDDLEWARE = [
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:4200',
     'http://localhost',
+    'https://kaumenova.web.app'
 )
 
 REST_FRAMEWORK = {

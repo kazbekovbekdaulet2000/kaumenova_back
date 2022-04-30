@@ -17,6 +17,7 @@ class ProductItemSerializer(serializers.ModelSerializer):
 class ProductItemDetailSerializer(serializers.ModelSerializer):
     size = SizeSerializer()
     color = ColorSerializer()
+
     class Meta:
         model = ProductAvailability
         fields = ['id', 'size', 'color', 'count']
@@ -30,8 +31,10 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ['id', 'name', 'created_at', 'price',
-                  'type', 'images', 'colors', 'sizes']
+        fields = ('id', 'name', 'created_at', 'price',
+                  'type', 'images', 'colors', 'sizes',
+                  'model_height', 'model_size', 'discount',
+                  'articule', 'composition')
 
 
 class ProductDetailSerializer(ProductSerializer):
@@ -39,8 +42,11 @@ class ProductDetailSerializer(ProductSerializer):
 
     class Meta:
         model = Product
-        fields = ['id', 'name', 'created_at', 'price', 'description',
-                  'type', 'items', 'images', 'colors', 'sizes']
+        fields = ('id', 'name', 'created_at', 'price',
+                  'type', 'images', 'colors', 'sizes',
+                  'model_height', 'model_size', 'discount',
+                  'articule', 'composition', 'description',
+                  'items')
 
 
 class CardProductSerializer(ProductSerializer):
@@ -49,14 +55,16 @@ class CardProductSerializer(ProductSerializer):
     selected_size = serializers.SerializerMethodField(read_only=True)
 
     def get_count(self, obj):
-        obj = get_object_or_404(Card, **{'product': obj, 'hash': self.get_client_ip()})
+        obj = get_object_or_404(
+            Card, **{'product': obj, 'hash': self.get_client_ip()})
         return obj.count
 
     def get_total_price(self, obj):
         return ((self.get_count(obj) * obj.price) * (100 - obj.discount))/100
 
     def get_selected_size(self, obj):
-        product_size_ids = self.context['view'].card_obj.values_list('product_size', flat=True).distinct()
+        product_size_ids = self.context['view'].card_obj.values_list(
+            'product_size', flat=True).distinct()
         data = ProductAvailability.objects.filter(id__in=product_size_ids)
         return ProductItemDetailSerializer(data, many=True).data
 

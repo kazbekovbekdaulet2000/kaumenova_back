@@ -4,10 +4,9 @@ from django.utils.translation import gettext_lazy as _
 from shop.models.color import Color
 from shop.models.product_type import ProductType
 from shop.models.size import Size
-from ckeditor.fields import RichTextField
 from django.db.models.signals import post_save, post_delete
 from news.models import Collection
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import MaxValueValidator
 
 
 PROD_TYPES = (
@@ -23,7 +22,6 @@ class Product(AbstractModel):
         _('Артикул'), max_length=255, null=False, blank=True)
     name = models.CharField(_('Название продукта'),
                             max_length=255, null=False, blank=True)
-    # description = RichTextField(verbose_name=_('Описание продукта'), config_name='basic')
     description = models.TextField(verbose_name=_(
         'Описание продукта'), max_length=4096, null=True, blank=True)
     composition = models.TextField(verbose_name=_(
@@ -78,6 +76,13 @@ def update_product(sender, instance, created, **kwargs):
     product.save()
 
 
+def update_images(sender, instance, created, **kwargs):
+    product = instance
+    for image in product.images.all():
+        if(not image.image_thumb):
+            image.save()
+
+
 def delete_product_item(sender, instance, **kwargs):
     product = instance.product
     product.set_sizes.remove(instance.size)
@@ -86,5 +91,5 @@ def delete_product_item(sender, instance, **kwargs):
 
 
 post_save.connect(update_product, sender=ProductAvailability)
-
+post_save.connect(update_images, sender=Product)
 post_delete.connect(delete_product_item, sender=ProductAvailability)

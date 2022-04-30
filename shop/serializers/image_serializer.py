@@ -5,4 +5,4 @@ from shop.models.image import Image
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image
-        fields = ["image", "color"]
+        fields = ["image", "color", "image_thumb"]
