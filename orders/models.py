@@ -13,7 +13,7 @@ class Order(AbstractModel):
     user_name = models.CharField(_("Имя заказчика"), max_length=255)
     phone_num = models.CharField(_("Номер телефона"), max_length=16)
     done = models.BooleanField(_("Заказ выполнен"), default=False)
-    total_price = models.PositiveIntegerField(null=False)
+    total_price = models.PositiveIntegerField(verbose_name=_('Сумма Заказа'), null=False)
 
     def __str__(self):
         local_date = timezone.localtime(self.created_at, timezone.get_fixed_timezone(360)).date()
@@ -25,14 +25,14 @@ class Order(AbstractModel):
         ordering = ['-created_at']
         verbose_name = 'Заказ'
         verbose_name_plural = 'Заказы'
-      
+
 
 class ProductOrder(AbstractModel):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name=_("Товар"), blank=True)
     size = models.ForeignKey(Size, on_delete=models.CASCADE, verbose_name=_("Размер"), blank=True, default=1)
     color = models.ForeignKey(Color, on_delete=models.CASCADE, verbose_name=_("Цвет"), blank=True, default=1)
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='products', verbose_name=_("Товар"), blank=True, null=True)
-    count = models.PositiveIntegerField(default=1)
+    count = models.PositiveIntegerField(verbose_name=_('Количество'), default=1)
 
     def __str__(self):
         return f"{self.product.name}-{self.size.size} ({self.color.name}); количество - {self.count}"

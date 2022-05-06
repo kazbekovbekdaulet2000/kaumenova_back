@@ -10,8 +10,8 @@ class NewsAdmin(admin.ModelAdmin):
 
 
 class BroadcastAdmin(admin.ModelAdmin):
-    search_fields = ['username', 'phone_number', 'email']
-    list_display = ['username', 'phone_number', 'email']
+    search_fields = ['username', 'phone_number']
+    list_display = ['username', 'phone_number']
 
 
 class CollectionAdmin(admin.ModelAdmin):

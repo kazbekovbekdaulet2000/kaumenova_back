@@ -9,11 +9,13 @@ from shop.models.size import Size
 
 
 class ProductImageAdmin(admin.TabularInline):
+    exclude = ('image_thumb',)
     model = Image
     extra = 0
 
 
 class ProductItemsAdmin(admin.TabularInline):
+    exclude = ('count',)
     model = ProductAvailability
     extra = 0
 

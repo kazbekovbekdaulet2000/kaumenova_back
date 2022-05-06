@@ -35,7 +35,7 @@ class Product(AbstractModel):
     type = models.ForeignKey(ProductType, blank=True, related_name="category_products", on_delete=models.DO_NOTHING,
                              verbose_name=_('Категория товара'), null=True)
     collection = models.ForeignKey(
-        Collection, blank=True, on_delete=models.DO_NOTHING, verbose_name=_('Коллекция'), null=True)
+        Collection, blank=True, on_delete=models.DO_NOTHING, related_name="products", verbose_name=_('Коллекция'), null=True)
     set_sizes = models.ManyToManyField(Size, blank=True)
     set_colors = models.ManyToManyField(Color, blank=True)
     discount = models.PositiveIntegerField(verbose_name=_(
@@ -57,7 +57,7 @@ class ProductAvailability(AbstractModel):
         Size, on_delete=models.CASCADE, blank=True, verbose_name=_('Размер'))
     color = models.ForeignKey(
         Color, on_delete=models.CASCADE, blank=True, verbose_name=_('Цвет'))
-    count = models.PositiveIntegerField(null=False)
+    count = models.PositiveIntegerField(default=10, null=False)
 
     def __str__(self):
         return f"{self.product.name}-{self.size.size} ({self.color.name})"

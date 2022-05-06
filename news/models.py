@@ -15,9 +15,8 @@ def collection_dir(instance, filename):
 
 class Collection(AbstractModel):
     name = models.CharField(max_length=4096, null=False, blank=True)
-    image = models.ImageField(verbose_name=_(
-        'Главное фото'), null=False, blank=True, upload_to=collection_dir)
-    active = models.BooleanField(default=True)
+    image = models.ImageField(verbose_name=_('Главное фото'), null=False, blank=True, upload_to=collection_dir)
+    active = models.BooleanField(verbose_name=_('Активный'), default=True)
 
     def __str__(self):
         return self.name
@@ -30,8 +29,7 @@ class Collection(AbstractModel):
 
 class Broadcast(AbstractModel):
     username = models.CharField(max_length=4096, null=False, blank=True)
-    phone_number = models.CharField(max_length=16, null=True)
-    email = models.CharField(max_length=16, null=True)
+    phone_number = models.CharField(max_length=16, null=True, unique=True)
 
     def __str__(self):
         return f"{self.username} ({self.phone_number})"
@@ -52,17 +50,21 @@ def thumb_dir(instance, filename):
 
 class News(AbstractModel):
     name = models.CharField(max_length=4096, null=False, blank=True)
-    image = models.ImageField(verbose_name=_('Фото'), null=False, blank=True, upload_to="news")
+    image = models.ImageField(verbose_name=_(
+        'Фото'), null=False, blank=True, upload_to="news")
     video = models.FileField(verbose_name=_('Видео'), null=True, blank=True)
-    image_thumb240 = models.ImageField(verbose_name=_('Фото (240px)'), upload_to='news/thumbs', max_length=500, null=True, blank=True)
-    image_thumb480 = models.ImageField(verbose_name=_('Фото (480px)'), upload_to='news/thumbs', max_length=500, null=True, blank=True)
-    image_thumb720 = models.ImageField(verbose_name=_('Фото (720px)'), upload_to='news/thumbs', max_length=500, null=True, blank=True)
-    active = models.BooleanField(default=True)
+    image_thumb240 = models.ImageField(verbose_name=_(
+        'Фото (240px)'), upload_to='news/thumbs', max_length=500, null=True, blank=True)
+    image_thumb480 = models.ImageField(verbose_name=_(
+        'Фото (480px)'), upload_to='news/thumbs', max_length=500, null=True, blank=True)
+    image_thumb720 = models.ImageField(verbose_name=_(
+        'Фото (720px)'), upload_to='news/thumbs', max_length=500, null=True, blank=True)
+    active = models.BooleanField(verbose_name=_('Активный'), default=True)
     text = RichTextField(verbose_name=_('Тест новости'), config_name='basic')
 
     def __str__(self):
         return self.name
-   
+
     def create_thumbnail(self, newsize) -> InMemoryUploadedFile:
         if not self.image:
             return
