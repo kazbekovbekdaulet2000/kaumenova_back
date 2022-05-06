@@ -44,8 +44,6 @@ class Image(AbstractModel):
         img.thumbnail(THUMBNAIL_SIZE, Picture.ANTIALIAS)
         img.save(data_img, format='jpeg', quality=100)
 
-        print(THUMBNAIL_SIZE)
-        print(sys.getsizeof(data_img))
         self.image_thumb = InMemoryUploadedFile(data_img,
                                                 'ImageField',
                                                 '%s_thumbnail.%s' % (os.path.splitext(

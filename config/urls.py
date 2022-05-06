@@ -37,6 +37,7 @@ schema_view = get_schema_view(
 urlpatterns = [
     re_path('admin/', admin.site.urls),
     re_path('shop/', include('shop.urls')),
+    re_path('news/', include('news.urls')),
 
     # Swagger
     re_path('docs/swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),

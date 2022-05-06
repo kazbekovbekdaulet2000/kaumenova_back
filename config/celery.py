@@ -10,7 +10,3 @@ app = Celery('config')
 app.config_from_object('django.conf:settings', namespace="CELERY")
 app.autodiscover_tasks()
 app.conf.timezone = 'Asia/Almaty'
-
-@app.task(bind=True)
-def debug_task(self):
-    print(f'Request: {self.request!r}')

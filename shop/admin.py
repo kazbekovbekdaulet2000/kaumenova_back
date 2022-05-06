@@ -26,6 +26,7 @@ class ProductAdmin(admin.ModelAdmin):
 
 class ProductTypeAdmin(admin.ModelAdmin):
     list_display = ("name", "year")
+    ordering = ('order',)
     search_fields = ('name', )
 
 
@@ -37,6 +38,7 @@ class SizeAdmin(admin.ModelAdmin):
 class ColorAdmin(admin.ModelAdmin):
     list_display = ("name", "color", "color_code")
     search_fields = ("name", )
+
 
 admin.site.register(Product, ProductAdmin)
 admin.site.register(ProductType, ProductTypeAdmin)

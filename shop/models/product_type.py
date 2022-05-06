@@ -14,6 +14,7 @@ PROD_TYPES = (
 
 class ProductType(AbstractModel):
     name = models.CharField(_('Название категории'),max_length=255, null=False, blank=True)
+    order = models.PositiveIntegerField(_('Очередь'), default=1)
     year = models.PositiveIntegerField(_('Год'), default=2021, validators=[MaxValueValidator(2050), MinValueValidator(1991)])
     have_size = models.BooleanField(_('Есть размеры'), default=True)
 
@@ -21,6 +22,6 @@ class ProductType(AbstractModel):
         return f"{self.name} {self.year}"
 
     class Meta:
-        ordering = ['-created_at']
+        ordering = ['order']
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории продуктов'

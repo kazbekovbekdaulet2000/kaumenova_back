@@ -7,6 +7,6 @@ from django.db.models import Count
 
 class ProductCategoryList(generics.ListAPIView):
     queryset = ProductType.objects.all().annotate(
-        items_count=Count('category_products')).filter(items_count__gte=1)
+        items_count=Count('category_products')).filter(items_count__gte=1).order_by('order')
     serializer_class = ProductTypeDetailSerializer
     pagination_class = None

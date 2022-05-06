@@ -3,6 +3,7 @@ from news.models import Broadcast, News, Collection
 
 
 class NewsAdmin(admin.ModelAdmin):
+    exclude = ('image_thumb240', 'image_thumb480', 'image_thumb720')
     search_fields = ['name', 'text']
     list_filter = ['active', ]
     list_display = ['name', 'text', 'active']
