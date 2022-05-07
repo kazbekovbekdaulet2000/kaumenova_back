@@ -24,17 +24,17 @@ services:
       - db
     ports:
       - "8000:8000"
-  redis:
-    image: "redis:alpine"
-  celery:
-    build: .
-    command: celery -A config worker --loglevel=INFO --concurrency=2
-    volumes:
-      - .:/app
-    env_file: .env
-    depends_on:
-      - web
-      - redis
+  # redis:
+  #   image: "redis:alpine"
+  # celery:
+  #   build: .
+  #   command: celery -A config worker --loglevel=INFO --concurrency=2
+  #   volumes:
+  #     - .:/app
+  #   env_file: .env
+  #   depends_on:
+  #     - web
+  #     - redis
   nginx:
     image: nginx:1.15-alpine
     restart: unless-stopped
