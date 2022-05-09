@@ -26,7 +26,7 @@ class ProductFilter(filters.FilterSet):
 
 class ProductList(generics.ListAPIView):
     queryset = Product.objects.all().annotate(
-        items_count=Count('items')).filter(items_count__gte=1)
+        items_count=Count('items')).filter(items_count__gte=1, active=True)
     serializer_class = ProductSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = ProductFilter
@@ -35,7 +35,7 @@ class ProductList(generics.ListAPIView):
 class ProductDetail(generics.RetrieveAPIView):
     lookup_field = "id"
     queryset = Product.objects.all().annotate(
-        items_count=Count('items')).filter(items_count__gte=1)
+        items_count=Count('items')).filter(items_count__gte=1, active=True)
     serializer_class = ProductDetailSerializer
 
 

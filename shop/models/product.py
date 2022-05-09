@@ -40,6 +40,7 @@ class Product(AbstractModel):
     set_colors = models.ManyToManyField(Color, blank=True)
     discount = models.PositiveIntegerField(verbose_name=_(
         'Скидка в процентах'), default=0, validators=[MaxValueValidator(100)])
+    active = models.BooleanField(_("Активный"),default=True)
 
     def __str__(self):
         return self.name

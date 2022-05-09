@@ -18,14 +18,11 @@ def thumbnail_folder(instance, filename):
 
 
 class Image(AbstractModel):
-    image = models.ImageField(verbose_name=_(
-        'Фото'), null=False, blank=True, upload_to=course_dir)
-    image_thumb = models.ImageField(
-        upload_to=thumbnail_folder, max_length=500, null=True, blank=True)
-    product = models.ForeignKey(Product, related_name='images',
-                                blank=True, on_delete=models.CASCADE, verbose_name=_('Продукт'))
-    color = models.ForeignKey(
-        Color, blank=True, on_delete=models.CASCADE, verbose_name=_('Цвет в фото'))
+    image = models.ImageField(verbose_name=_('Фото'), null=False, blank=True, upload_to=course_dir)
+    image_thumb = models.ImageField(upload_to=thumbnail_folder, max_length=500, null=True, blank=True)
+    product = models.ForeignKey(Product, related_name='images', blank=True, on_delete=models.CASCADE, verbose_name=_('Продукт'))
+    color = models.ForeignKey(Color, blank=True, on_delete=models.CASCADE, verbose_name=_('Цвет в фото'))
+    main = models.BooleanField(_("Главная фотография"), default=False)
 
     def __str__(self):
         return f"{self.product.name} ({self.color.name})"
@@ -59,6 +56,6 @@ class Image(AbstractModel):
         super(Image, self).save(force_update=force_update)
 
     class Meta:
-        ordering = ['-created_at']
+        ordering = ['-main', '-created_at']
         verbose_name = 'Фото'
         verbose_name_plural = 'Фотографии'
