@@ -43,7 +43,7 @@ class Product(AbstractModel):
     active = models.BooleanField(_("Активный"),default=True)
 
     def __str__(self):
-        return self.name
+        return f"{self.name} ({self.articule})"
 
     class Meta:
         ordering = ['-created_at']
