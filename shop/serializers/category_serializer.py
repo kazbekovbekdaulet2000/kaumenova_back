@@ -5,7 +5,7 @@ from django.db.models import Count
 class ProductTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductType
-        fields = ["id", "name", "year", "have_size"]
+        fields = ["id", "name", "year", "have_size", "tags"]
 
 
 class ProductTypeDetailSerializer(serializers.ModelSerializer):
@@ -16,4 +16,4 @@ class ProductTypeDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProductType
-        fields = ["id", "name", "year", "have_size", "products_count"]
+        fields = ["id", "name", "year", "have_size", "products_count", "tags"]

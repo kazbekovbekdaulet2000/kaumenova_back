@@ -2,6 +2,7 @@ from django.db import models
 from config.common_model import AbstractModel
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.contrib.postgres.fields import ArrayField
 
 
 PROD_TYPES = (
@@ -17,7 +18,8 @@ class ProductType(AbstractModel):
     order = models.PositiveIntegerField(_('Очередь'), default=1)
     year = models.PositiveIntegerField(_('Год'), default=2021, validators=[MaxValueValidator(2050), MinValueValidator(1991)])
     have_size = models.BooleanField(_('Есть размеры'), default=True)
-
+    tags = ArrayField(models.CharField(blank=True, null=False, max_length=255), blank=True, null=True)
+    
     def __str__(self):
         return f"{self.name} {self.year}"
 
