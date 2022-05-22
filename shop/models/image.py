@@ -33,15 +33,16 @@ class Image(AbstractModel):
             return
 
         from PIL import Image as Picture
-        from PIL import ExifTags
+        
         from io import BytesIO
         data_img = BytesIO()
 
         img = Picture.open(self.image)
-        for orientation in ExifTags.TAGS.keys() : 
-            if ExifTags.TAGS[orientation]=='Orientation' : break 
-        exif=dict(img._getexif().items())
         try:
+            from PIL import ExifTags
+            for orientation in ExifTags.TAGS.keys() : 
+                if ExifTags.TAGS[orientation]=='Orientation' : break 
+            exif=dict(img._getexif().items())
             if   exif[orientation] == 3 : 
                 img=img.rotate(180, expand=True)
             elif exif[orientation] == 6 : 
@@ -49,7 +50,7 @@ class Image(AbstractModel):
             elif exif[orientation] == 8 : 
                 img=img.rotate(90, expand=True)
         except: pass
-        
+
         img.thumbnail((size, size), Picture.ANTIALIAS)
         img.save(data_img, format='jpeg', quality=100)
 
