@@ -27,9 +27,9 @@ class Product(AbstractModel):
     composition = models.TextField(verbose_name=_(
         'Состав продукта'), max_length=4096, null=True, blank=True)
     model_size = models.PositiveIntegerField(
-        verbose_name=_('Размер модели'), default=36, null=True)
+        verbose_name=_('Размер модели'), default=36, null=True, blank=True)
     model_height = models.PositiveIntegerField(
-        verbose_name=_('Рост модели'), default=170, null=True)
+        verbose_name=_('Рост модели'), default=170, null=True, blank=True)
     price = models.PositiveIntegerField(
         _('Цена'), default=100000, null=False, blank=True)
     type = models.ForeignKey(ProductType, blank=True, related_name="category_products", on_delete=models.DO_NOTHING,

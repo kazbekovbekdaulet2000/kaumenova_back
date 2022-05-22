@@ -1,3 +1,4 @@
+from asyncio import constants
 import os
 import sys
 from django.db import models
@@ -27,7 +28,7 @@ class Image(AbstractModel):
     def __str__(self):
         return f"{self.product.name} ({self.color.name})"
 
-    def create_thumbnail(self):
+    def create_thumbnail(self, size):
         if not self.image:
             return
 
@@ -36,20 +37,19 @@ class Image(AbstractModel):
         data_img = BytesIO()
 
         img = Picture.open(self.image)
-        THUMBNAIL_SIZE = (int(img.width/1.75), int(img.height/1.75))
-
-        img.thumbnail(THUMBNAIL_SIZE, Picture.ANTIALIAS)
+        img.thumbnail((size, size), Picture.ANTIALIAS)
         img.save(data_img, format='jpeg', quality=100)
 
-        self.image_thumb = InMemoryUploadedFile(data_img,
-                                                'ImageField',
-                                                '%s_thumbnail.%s' % (os.path.splitext(
-                                                    self.image.name)[0], 'jpeg'),
-                                                'jpeg',
-                                                sys.getsizeof(data_img), None)
+        return InMemoryUploadedFile(data_img,
+                                    'ImageField',
+                                    '%s_thumb_%s.%s' % (os.path.splitext(
+                                        self.image.name)[0], size, 'jpeg'),
+                                    'jpeg',
+                                    sys.getsizeof(data_img), None)
 
     def save(self, *args, **kwargs):
-        self.create_thumbnail()
+        self.image_thumb = self.create_thumbnail(360)
+        self.image = self.create_thumbnail(960)
         force_update = False
         if self.id:
             force_update = True
