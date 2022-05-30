@@ -2,10 +2,8 @@ from config.common_model import AbstractModel
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from shop.models.color import Color
-from shop.models.product import Product, ProductAvailability
-from django.db.models.signals import post_init, post_save
+from shop.models.product import Product
 from django.utils import timezone
-
 from shop.models.size import Size
 
 
@@ -13,6 +11,7 @@ class Order(AbstractModel):
     user_name = models.CharField(_("Имя заказчика"), max_length=255)
     phone_num = models.CharField(_("Номер телефона"), max_length=16)
     done = models.BooleanField(_("Заказ выполнен"), default=False)
+    canceled = models.BooleanField(_("Заказ отменен"), default=False)
     total_price = models.PositiveIntegerField(verbose_name=_('Сумма Заказа'), null=False)
 
     def __str__(self):

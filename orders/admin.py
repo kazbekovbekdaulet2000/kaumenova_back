@@ -1,13 +1,14 @@
 from django.contrib import admin
-
 from orders.models import Order, ProductOrder
 
 
 class ProductOrderAdmin(admin.TabularInline):
     def has_add_permission(self, request, obj=None):
         return False
+
     def has_change_permission(self, request, obj=None):
         return False
+
     def has_delete_permission(self, request, obj=None):
         return False
     model = ProductOrder
@@ -17,7 +18,8 @@ class ProductOrderAdmin(admin.TabularInline):
 class OrderAdmin(admin.ModelAdmin):
     def has_add_permission(self, request, obj=None):
         return False
-    list_display = ("user_name", "phone_num", "done", "total_price")
+    list_display = ("user_name", "phone_num", "done",
+                    "canceled", "total_price")
     list_filter = ("done", )
     readonly_fields = ("user_name", "phone_num", "total_price")
     inlines = [ProductOrderAdmin]

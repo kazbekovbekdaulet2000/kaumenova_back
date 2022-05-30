@@ -2,6 +2,7 @@ from django.forms import ValidationError
 from rest_framework import serializers
 
 from orders.models import Order, ProductOrder
+from orders.task import send_reminder
 from shop.models.product import ProductAvailability
 
 
@@ -34,5 +35,6 @@ class OrderCreateSerializer(serializers.ModelSerializer):
             prod = ProductOrder.objects.create(order=order, **product)
             price += prod.product.price * product['count']
         order.total_price = price
+        send_reminder(price, validated_data['phone_num'])
         order.save()
         return order
